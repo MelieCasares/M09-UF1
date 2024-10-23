@@ -16,9 +16,7 @@ public class xifratAES {
     private static final String CLAU = "CyPHER";
 
     public static byte[] xifraAES(String msg, String clau) throws Exception {
-        int bufferSize = 1024;
-        ByteBuffer buff = ByteBuffer.allocate(bufferSize);
-        byte[] clean = buff.array();
+        byte [] clean = msg.getBytes("UTF-8");
         SecureRandom random = new SecureRandom();
         random.nextBytes(iv);
         IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
