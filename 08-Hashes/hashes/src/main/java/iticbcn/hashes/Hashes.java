@@ -27,8 +27,8 @@ public class Hashes {
     }
     public String getPBKDF2AmbSalt(String pw, String salt) {
         try {
-            PBEKeySpec spec = new PBEKeySpec(pw.toCharArray(), salt.getBytes(), 1000, 512);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+            PBEKeySpec spec = new PBEKeySpec(pw.toCharArray(), salt.getBytes(), 65536, 128);
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] bytes = skf.generateSecret(spec).getEncoded();
             HexFormat hex = HexFormat.of();
             String hash = hex.formatHex(bytes);
@@ -41,9 +41,10 @@ public class Hashes {
         return null;
     }
     public String forcaBruta(String alg, String hash, String salt) {
+        npass = 0;
         char[] fbPasswd = new char[6];
         String fbPasswdHash;
-        char[] charset = "abcdefABCDEF1234567890!".toCharArray();
+        char[] charset = "abcdefABCDEF1234567890!".toCharArray();   
         for (int i = 0; i < charset.length ; i++) {
             npass++;
             fbPasswd[0] = charset[i];
@@ -95,7 +96,7 @@ public class Hashes {
 
     public static void main(String[] args) {
         String salt = "qpoweiruañslkdfjz";
-        String pw = "ca";
+        String pw = "aaabF!";
         Hashes h = new Hashes();
         String[] aHashes = { h.getSHA512AmbSalt(pw, salt),
         h.getPBKDF2AmbSalt(pw, salt) };
